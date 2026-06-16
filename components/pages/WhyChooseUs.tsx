@@ -69,7 +69,7 @@ export default function WhyChooseUs() {
           transition: opacity 0.7s ease, transform 0.7s ease;
           text-align: center;
           font-size: clamp(24px, 3.5vw, 42px);
-          font-weight: 900;
+          font-weight: 600;
           color: var(--navy2, #1a1f5e);
           line-height: 1.3;
           margin-bottom: 20px;

@@ -48,7 +48,6 @@ export default function Hero() {
   return (
     <>
       <style>{`
-        /* ── Keyframes ── */
         @keyframes glowPulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0), 0 32px 80px rgba(0,0,0,0.35); }
           50%       { box-shadow: 0 0 0 6px rgba(240,165,0,0.12), 0 32px 80px rgba(0,0,0,0.35); }
@@ -79,7 +78,6 @@ export default function Hero() {
           100% { transform: scale(1.05); opacity: 0; }
         }
 
-        /* ── Hero Section ── */
         .hero-section {
           background: var(--gradient-dark);
           min-height: 80vh;
@@ -88,7 +86,6 @@ export default function Hero() {
           font-family: var(--font);
         }
 
-        /* ── Inner wrapper ── */
         .hero-inner {
           position: relative;
           z-index: 1;
@@ -102,7 +99,6 @@ export default function Hero() {
           flex-wrap: wrap;
         }
 
-        /* ── Left column ── */
         .hero-left {
           flex: 1;
           min-width: 280px;
@@ -125,7 +121,7 @@ export default function Hero() {
           color: var(--accent);
           line-height: 0.88;
           text-transform: uppercase;
-          margin: 0;
+          margin: 0 0 24px 0;
           letter-spacing: -2px;
           animation: fadeUp 0.7s 0.1s ease both;
           text-shadow: 0 0 60px rgba(240,165,0,0.3);
@@ -136,7 +132,7 @@ export default function Hero() {
           font-weight: 700;
           color: var(--white);
           text-transform: uppercase;
-          margin: 16px 0 20px;
+          margin: 0 0 20px;
           letter-spacing: 0.5px;
           animation: fadeUp 0.7s 0.2s ease both;
         }
@@ -150,7 +146,6 @@ export default function Hero() {
           animation: fadeUp 0.7s 0.3s ease both;
         }
 
-        /* ── Badges ── */
         .hero-badges {
           display: flex;
           gap: 16px;
@@ -179,7 +174,6 @@ export default function Hero() {
           display: block;
         }
 
-        /* ── CTA buttons ── */
         .hero-ctas {
           display: flex;
           gap: 14px;
@@ -187,7 +181,6 @@ export default function Hero() {
           animation: fadeUp 0.7s 0.5s ease both;
         }
 
-        /* ── Right column — Form wrapper ── */
         .hero-right {
           flex-shrink: 0;
           width: 440px;
@@ -195,7 +188,6 @@ export default function Hero() {
           position: relative;
         }
 
-        /* Corner brackets */
         .corner {
           position: absolute;
           width: 32px;
@@ -208,7 +200,6 @@ export default function Hero() {
         .corner-bl { bottom: -10px; left: -10px;  border-bottom: 3px solid var(--accent); border-left: 3px solid var(--accent);  border-radius: 0 0 0 4px; animation-delay: 0.8s; }
         .corner-br { bottom: -10px; right: -10px; border-bottom: 3px solid var(--accent); border-right: 3px solid var(--accent); border-radius: 0 0 4px 0; animation-delay: 1.2s; }
 
-        /* Glow behind form */
         .form-glow {
           position: absolute;
           inset: -20px;
@@ -218,7 +209,6 @@ export default function Hero() {
           z-index: 0;
         }
 
-        /* Form card */
         .form-card {
           background: var(--white);
           border-radius: 16px;
@@ -229,7 +219,6 @@ export default function Hero() {
           animation: glowPulse 3s ease-in-out infinite, floatForm 5s ease-in-out infinite;
         }
 
-        /* Shimmer on top border */
         .form-shimmer-wrap {
           position: absolute;
           top: 0; left: 0; right: 0;
@@ -320,146 +309,93 @@ export default function Hero() {
           cursor: pointer;
         }
 
-        /* ─────────────────────────────
-           RESPONSIVE BREAKPOINTS
-        ───────────────────────────── */
-
-        /* ── Mobile: up to 480px ── */
         @media (max-width: 480px) {
           .hero-section { min-height: auto; }
-          .hero-inner {
-            flex-direction: column;
-            padding: 24px 16px 48px;
-            gap: 32px;
-          }
+          .hero-inner { flex-direction: column; padding: 24px 16px 48px; gap: 32px; }
           .hero-left { min-width: 100%; }
           .hero-title { font-size: clamp(40px, 12vw, 52px); letter-spacing: -1px; }
-          .hero-desc { font-size: 1.1rem; }
+          .hero-desc { font-size: 1rem; }
           .hero-right { width: 100%; }
           .form-card { padding: 24px 20px 24px; }
           .hero-ctas { flex-direction: column; }
           .hero-ctas a { width: 100%; text-align: center; justify-content: center; }
         }
 
-        /* ── Small mobile: up to 375px ── */
         @media (max-width: 375px) {
           .hero-title { font-size: 36px; }
           .hero-inner { padding: 20px 14px 40px; }
           .form-card { padding: 20px 16px; }
         }
 
-        /* ── Tablet: 481px – 768px ── */
         @media (min-width: 481px) and (max-width: 768px) {
-          .hero-inner {
-            flex-direction: column;
-            padding: 32px 24px 64px;
-            gap: 40px;
-          }
+          .hero-inner { flex-direction: column; padding: 32px 24px 64px; gap: 40px; }
           .hero-right { width: 100%; max-width: 480px; margin: 0 auto; }
           .hero-title { font-size: clamp(48px, 10vw, 64px); }
-          .hero-desc { font-size: 1.1rem; max-width: 100%; }
+          .hero-desc { font-size: 1rem; max-width: 100%; }
         }
 
-        /* ── Large tablet / small laptop: 769px – 1024px ── */
         @media (min-width: 769px) and (max-width: 1024px) {
-          .hero-inner {
-            padding: 36px 32px 72px;
-            gap: 36px;
-          }
+          .hero-inner { padding: 36px 32px 72px; gap: 36px; }
           .hero-right { width: 380px; }
           .hero-title { font-size: clamp(48px, 7vw, 64px); }
-          .hero-desc { font-size: 1.1rem; }
+          .hero-desc { font-size: 1rem; }
         }
 
-        /* ── Laptop: 1025px – 1280px ── */
         @media (min-width: 1025px) and (max-width: 1280px) {
-          .hero-inner {
-            padding: 36px 40px 80px;
-            max-width: 1100px;
-          }
+          .hero-inner { padding: 36px 40px 80px; max-width: 1100px; }
           .hero-right { width: 400px; }
-          .hero-desc { font-size: 1.1rem; }
+          .hero-desc { font-size: 1rem; }
         }
 
-        /* ── Desktop: 1281px – 1600px ── */
         @media (min-width: 1281px) and (max-width: 1600px) {
-          .hero-inner {
-            padding: 40px 48px 88px;
-            max-width: 1320px;
-          }
+          .hero-inner { padding: 40px 48px 88px; max-width: 1320px; }
           .hero-right { width: 440px; }
-          .hero-desc { font-size: 1.1rem; }
         }
 
-        /* ── Large Desktop: 1601px – 1920px ── */
         @media (min-width: 1601px) and (max-width: 1920px) {
-          .hero-inner {
-            max-width: 1560px;
-            padding: 52px 64px 100px;
-            gap: 60px;
-          }
+          .hero-inner { max-width: 1560px; padding: 52px 64px 100px; gap: 60px; }
           .hero-right { width: 500px; }
           .hero-title { font-size: clamp(76px, 5.5vw, 96px); }
           .hero-desc { font-size: 1.1rem; max-width: 580px; }
-          .hero-badge img { height: 88px; }
-          .hero-badge { padding: 12px 20px; }
           .hero-eyebrow { font-size: 0.85rem; }
           .form-card { padding: 44px 40px 40px; }
           .form-logo-wrap img { height: 88px; }
         }
 
-        /* ── Ultra-wide: 1921px – 2560px ── */
         @media (min-width: 1921px) and (max-width: 2560px) {
           .hero-section { min-height: 75vh; }
-          .hero-inner {
-            max-width: 1900px;
-            padding: 64px 80px 120px;
-            gap: 80px;
-          }
+          .hero-inner { max-width: 1900px; padding: 64px 80px 120px; gap: 80px; }
           .hero-right { width: 580px; }
           .hero-title { font-size: clamp(96px, 5.8vw, 120px); }
-          .hero-desc { font-size: 1.1rem; max-width: 680px; }
+          .hero-desc { font-size: 1.15rem; max-width: 680px; }
           .hero-eyebrow { font-size: 0.9rem; letter-spacing: 2.5px; }
           .hero-subtitle { font-size: clamp(1rem, 1.2vw, 1.2rem); }
           .form-card { padding: 52px 48px 48px; }
           .form-logo-wrap img { height: 100px; }
           .form-heading { font-size: 14px; }
-          .hero-badge-stars { font-size: 18px; }
-          .hero-badge-label { font-size: 13px; }
-          .hero-badge { padding: 14px 24px; }
         }
 
-        /* ── 4K / 2560px+ ── */
         @media (min-width: 2561px) {
           .hero-section { min-height: 70vh; }
-          .hero-inner {
-            max-width: 2400px;
-            padding: 80px 120px 160px;
-            gap: 100px;
-          }
+          .hero-inner { max-width: 2400px; padding: 80px 120px 160px; gap: 100px; }
           .hero-right { width: 700px; }
           .hero-title { font-size: clamp(120px, 5.5vw, 160px); letter-spacing: -4px; }
-          .hero-desc { font-size: 1.1rem; max-width: 820px; }
+          .hero-desc { font-size: 1.2rem; max-width: 820px; }
           .hero-eyebrow { font-size: 1rem; letter-spacing: 3px; }
           .hero-subtitle { font-size: clamp(1.1rem, 1.1vw, 1.4rem); }
           .form-card { padding: 64px 56px 56px; }
           .form-logo-wrap img { height: 120px; }
           .form-heading { font-size: 16px; letter-spacing: 3px; }
-          .hero-badge-stars { font-size: 22px; }
-          .hero-badge-label { font-size: 14px; }
-          .hero-badge { padding: 18px 28px; gap: 6px; }
           .corner { width: 40px; height: 40px; }
         }
       `}</style>
 
       <section className="hero-section">
-        {/* star canvas */}
         <canvas
           ref={canvasRef}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}
         />
 
-        {/* book silhouette bg */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "url('/images/home-books.png')",
@@ -467,18 +403,15 @@ export default function Hero() {
           opacity: 0.05, pointerEvents: "none", zIndex: 0,
         }} />
 
-        {/* decorative rings */}
         <div style={{ position: "absolute", top: -140, right: -140, width: 500, height: 500, borderRadius: "50%", border: "1px solid rgba(240,165,0,0.1)", pointerEvents: "none", zIndex: 0, animation: "pulse-ring 4s ease-out infinite" }} />
         <div style={{ position: "absolute", top: -80, right: -80, width: 360, height: 360, borderRadius: "50%", border: "1px solid rgba(240,165,0,0.15)", pointerEvents: "none", zIndex: 0, animation: "pulse-ring 4s 1s ease-out infinite" }} />
 
-        {/* ── Main Content ── */}
         <div className="hero-inner">
 
-          {/* ── Left ── */}
           <div className="hero-left">
             <p className="hero-eyebrow">
               Invictus - Your Partner In Professional
-            </p>
+            </p><br /><br />
             <h1 className="hero-title">
               Book <br />Publishing
             </h1>
@@ -489,7 +422,6 @@ export default function Hero() {
               Your creativity stays at the center. We handle the process behind the success. From the first sentence to the final release, we provide the support needed to turn your writing into a professionally published work. Start the journey now!
             </p>
 
-            {/* badges */}
             <div className="hero-badges">
               <div className="hero-badge">
                 <img src="/images/google3.png" alt="Google Reviews" />
@@ -509,18 +441,14 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── Right — Form ── */}
           <div className="hero-right">
-            {/* corner brackets */}
             <div className="corner corner-tl" />
             <div className="corner corner-tr" />
             <div className="corner corner-bl" />
             <div className="corner corner-br" />
 
-            {/* glow */}
             <div className="form-glow" />
 
-            {/* Form card */}
             <div className="form-card">
               <div className="form-shimmer-wrap">
                 <div className="form-shimmer" />
