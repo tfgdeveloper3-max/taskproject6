@@ -236,7 +236,7 @@ export function StepIntoSection() {
 
         {/* book image */}
         <div className="sis-book reveal-right">
-          <img src="/images/StepInto.png" alt="Stack of Books" />
+          <img src="/images/Get-In-Touch.png" alt="Stack of Books" />
         </div>
 
       </section>

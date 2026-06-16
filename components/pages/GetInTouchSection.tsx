@@ -266,7 +266,7 @@ export function GetInTouchSection() {
 
           {/* image */}
           <div className="git-img-col reveal-left">
-            <img src="/images/Get-In-Touch.png" alt="Books" />
+            <img src="/images/StepInto.png" alt="Books" />
           </div>
 
           {/* form */}
