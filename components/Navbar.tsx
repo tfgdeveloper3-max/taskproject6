@@ -8,7 +8,6 @@ const navLinks = [
   { label: "Portfolio", href: "#portfolio" },
   { label: "Services", href: "#services" },
   { label: "Reviews", href: "#reviews" },
-  // { label: "Blogs", href: "#blogs" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -23,7 +22,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("hero");
 
-  /* scroll spy + shadow */
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
@@ -285,11 +283,11 @@ export default function Navbar() {
       {/* ── Topbar ── */}
       <div className="nb-topbar">
         <div className="nb-topbar-inner">
-          <a href="mailto:info@nybookpublishers.com">
-            <Mail size={14} /> info@nybookpublishers.com
+          <a href="mailto:info@invictuspublishings.com">
+            <Mail size={14} /> info@invictuspublishings.com
           </a>
-          <a href="tel:8553847020">
-            <Phone size={14} /> (855) 384-7020
+          <a href="tel:2797770367">
+            <Phone size={14} /> (279) 777-0367
           </a>
         </div>
       </div>
@@ -320,8 +318,8 @@ export default function Navbar() {
 
           {/* CTA buttons */}
           <div className="nb-ctas">
-            <a href="tel:8553847020" className="btn-accent">
-              <Phone size={14} aria-hidden="true" /> (855) 384-7020
+            <a href="tel:2797770367" className="btn-accent">
+              <Phone size={14} aria-hidden="true" /> (279) 777-0367
             </a>
             <a href="#contact" className="btn-navy" onClick={e => handleNav(e, "#contact")}>
               Free Consultation
@@ -361,8 +359,8 @@ export default function Navbar() {
                 {item.label}
               </a>
             ))}
-            <a href="tel:8553847020" className="nb-mobile-phone">
-              <Phone size={16} aria-hidden="true" /> (855) 384-7020
+            <a href="tel:2797770367" className="nb-mobile-phone">
+              <Phone size={16} aria-hidden="true" /> (279) 777-0367
             </a>
           </div>
         </div>

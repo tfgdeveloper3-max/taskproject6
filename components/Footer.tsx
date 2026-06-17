@@ -364,15 +364,17 @@ export function FooterSection() {
             </a>
 
             <div className="ft-mid-address">
-              <p>Mailing Address:<br />42 Broadway 12th floor, New York, NY 10004</p>
+              <p>Mailing Address:<br />3575 Arden Way
+                Sacramento, CA 95864 <br />
+                United States</p>
             </div>
 
             <div className="ft-mid-contact">
-              <a href="mailto:info@nybookpublishers.com">
-                <Mail size={16} aria-hidden="true" /> info@nybookpublishers.com
+              <a href="mailto:info@invictuspublishings.com">
+                <Mail size={16} aria-hidden="true" /> info@invictuspublishings.com
               </a>
-              <a href="tel:8553847020">
-                <Phone size={16} aria-hidden="true" /> (855) 384-7020
+              <a href="tel:2797770367">
+                <Phone size={16} aria-hidden="true" /> (279) 777-0367
               </a>
             </div>
 

@@ -2,6 +2,35 @@
 import { useEffect, useRef } from "react";
 import { MessageCircle, BookOpen } from "lucide-react";
 
+declare global {
+  interface Window {
+    LiveChatWidget: any;
+    LC_API: any;
+  }
+}
+
+function openLiveChat() {
+  if (typeof window === "undefined") return;
+  if (window.LiveChatWidget) {
+    window.LiveChatWidget.call("maximize");
+    return;
+  }
+  const lc = (window as any).LC_API;
+  if (lc && typeof lc.open_chat_window === "function") {
+    lc.open_chat_window();
+    return;
+  }
+  const selectors = [
+    "#chat-widget-container button",
+    "[id^='chat-widget']",
+    "iframe[title*='chat' i]",
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector<HTMLElement>(sel);
+    if (el) { el.click(); return; }
+  }
+}
+
 export function VideoTrailerSection() {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -204,10 +233,15 @@ export function VideoTrailerSection() {
           <div className="vts-video reveal-scale delay-3" />
 
           <div className="vts-ctas">
-            <a href="#" className="btn-outline-white reveal delay-4">
-              <MessageCircle size={16} aria-hidden="true" /> Let&apos;s Discuss
-            </a>
-            <a href="#" className="btn-accent reveal delay-5">
+            <button
+              type="button"
+              className="btn-outline-white"
+              onClick={openLiveChat}
+            >
+              <MessageCircle size={16} />
+              Let&apos;s Discuss
+            </button>
+            <a href="#contact" className="btn-accent reveal delay-5">
               <BookOpen size={16} aria-hidden="true" /> Create Your Book&apos;s Future
             </a>
           </div>

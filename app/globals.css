@@ -1,9 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
-@font-face {
-  font-family: 'Silian Rail';
-  src: url('/fonts/SilianRail.otf') format('opentype');
-}
 
 :root {
   --navy: #0d1240;
@@ -23,8 +19,8 @@
   --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.35);
   --transition: 0.25s ease;
-  --font: 'Rubik', sans-serif;
-  --font2: 'Silian Rail', serif;
+  --font: 'Montserrat', sans-serif;
+  --font2: 'Playfair Display', serif;
 }
 
 *,
@@ -60,30 +56,36 @@ img {
 }
 
 #nybp-cursor {
-  position: fixed;
+  position: fixed !important;
+  top: 0;
+  left: 0;
   width: 12px;
   height: 12px;
   background: var(--accent);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 999999;
+  z-index: 2147483647 !important;
   transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
   mix-blend-mode: normal;
   will-change: transform;
+  isolation: isolate;
 }
 
 #nybp-cursor-ring {
-  position: fixed;
+  position: fixed !important;
+  top: 0;
+  left: 0;
   width: 40px;
   height: 40px;
   border: 1.5px solid rgba(240, 165, 0, 0.6);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 999998;
+  z-index: 2147483647 !important;
   transform: translate(-50%, -50%);
   transition: width 0.12s ease, height 0.12s ease, border-color 0.2s;
   will-change: transform;
+  isolation: isolate;
 }
 
 body.cursor-hover #nybp-cursor {
@@ -220,7 +222,7 @@ body.cursor-hover #nybp-cursor-ring {
   color: var(--navy);
   padding: 13px 28px;
   border-radius: var(--radius-pill);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
   font-family: var(--font);
   border: 2px solid var(--accent);
@@ -249,7 +251,7 @@ body.cursor-hover #nybp-cursor-ring {
   color: #fff;
   padding: 13px 28px;
   border-radius: var(--radius-pill);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
   font-family: var(--font);
   border: 2px solid var(--navy);
@@ -327,7 +329,7 @@ textarea.nybp-input {
   background: var(--accent);
   color: var(--navy);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   padding: 6px 20px;

@@ -263,10 +263,10 @@ export function GlobalSection() {
             ].map((p, i) => <p key={i}>{p}</p>)}
 
             <div className="gs-ctas">
-              <a href="tel:8553847020" className="btn-navy">
+              <a href="tel:2797770367" className="btn-navy">
                 <Phone size={16} aria-hidden="true" /> Call now
               </a>
-              <a href="#" className="btn-accent">
+              <a href="#contact" className="btn-accent">
                 <CalendarCheck size={16} aria-hidden="true" /> Get Free Consultation
               </a>
             </div>

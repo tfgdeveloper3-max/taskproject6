@@ -138,7 +138,7 @@ export function WatchSection() {
           <p className="reveal delay-2">
             At INVICTUS PUBLISHING, we simplify the entire journey from idea to published book. From shaping your manuscript and refining your writing, to professional editing, cover design, formatting, ISBN setup, and global distribution, we handle every stage with precision so your book reaches readers without confusion or delay.
           </p>
-          <a href="#" className="btn-accent reveal delay-3">Make Your Book Official Today!</a>
+          <a href="#contact" className="btn-accent reveal delay-3">Make Your Book Official Today!</a>
         </div>
       </section>
     </>

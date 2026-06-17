@@ -1,9 +1,90 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { MessageCircle, CalendarCheck } from "lucide-react";
 
+declare global {
+  interface Window {
+    LiveChatWidget: any;
+    LC_API: any;
+  }
+}
+
+function openLiveChat() {
+  if (typeof window === "undefined") return;
+  if (window.LiveChatWidget) {
+    window.LiveChatWidget.call("maximize");
+    return;
+  }
+  const lc = (window as any).LC_API;
+  if (lc && typeof lc.open_chat_window === "function") {
+    lc.open_chat_window();
+    return;
+  }
+  const selectors = [
+    "#chat-widget-container button",
+    "[id^='chat-widget']",
+    "iframe[title*='chat' i]",
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector<HTMLElement>(sel);
+    if (el) { el.click(); return; }
+  }
+}
+
+const services = [
+  "Ghostwriting Services",
+  "Book Editing Services",
+  "Book Cover Design Services",
+  "Book Publishing Services",
+  "Video Trailer Services",
+  "Book Marketing Services",
+  "Illustration Design Services",
+  "Book Events Participation",
+];
+
 export default function Hero() {
+  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.phone) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("https://leads.authorpublishers.us/api/lead/QoihAxdBb1nYBCKZ28lYvey1wJgbJELf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          Name: form.name,
+          Email: form.email,
+          "Phone Number": form.phone,
+          "Service Name": form.service,
+          Message: form.message,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setForm({ name: "", email: "", phone: "", service: "", message: "" });
+        router.push("/thank-you");
+      } else {
+        setError(data?.message || "Something went wrong. Please try again.");
+        setLoading(false);
+      }
+    } catch {
+      setError("Network error. Please try again.");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -117,7 +198,7 @@ export default function Hero() {
         .hero-title {
           font-family: var(--font2);
           font-size: clamp(52px, 8.5vw, 76px);
-          font-weight: 900;
+          font-weight: 400;
           color: var(--accent);
           line-height: 0.88;
           text-transform: uppercase;
@@ -138,7 +219,7 @@ export default function Hero() {
         }
 
         .hero-desc {
-          font-size: 1.1rem;
+          font-size: 1rem;
           color: var(--text-muted);
           line-height: 1.85;
           margin-bottom: 32px;
@@ -252,54 +333,92 @@ export default function Hero() {
           color: var(--navy);
           text-transform: uppercase;
           letter-spacing: 2px;
-          margin-bottom: 22px;
+          margin-bottom: 16px;
           text-align: center;
         }
 
-        .form-desc {
-          font-size: 1.1rem;
-        }
-
-        .nybp-input {
+        .hero-nybp-input {
           display: block;
           width: 100%;
           box-sizing: border-box;
-          margin-bottom: 12px;
+          margin-bottom: 10px;
+          border: 1.5px solid #dde1e7;
+          border-radius: var(--radius-md);
+          padding: 11px 14px;
+          font-size: 13px;
+          font-family: var(--font);
+          color: #222;
+          background: #f8fafc;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .hero-nybp-input:focus {
+          border-color: var(--accent);
+          background: #fff;
+          box-shadow: 0 0 0 3px rgba(240,165,0,0.12);
+        }
+        .hero-nybp-input::placeholder { color: #aab0bc; }
+
+        .hero-select {
+          display: block;
+          width: 100%;
+          box-sizing: border-box;
+          margin-bottom: 10px;
+          border: 1.5px solid #dde1e7;
+          border-radius: var(--radius-md);
+          padding: 11px 36px 11px 14px;
+          font-size: 13px;
+          font-family: var(--font);
+          color: #222;
+          background: #f8fafc;
+          outline: none;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aab0bc' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          background-size: 11px;
+          cursor: pointer;
+          transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+        .hero-select:focus {
+          border-color: var(--accent);
+          background-color: #fff;
+          box-shadow: 0 0 0 3px rgba(240,165,0,0.12);
+        }
+        .hero-select option[value=""] { color: #aab0bc; }
+
+        textarea.hero-nybp-input {
+          resize: vertical;
+          min-height: 80px;
         }
 
-        .form-captcha {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          border: 1.5px solid #dde1e7;
-          border-radius: 10px;
-          padding: 12px 16px;
-          margin-bottom: 14px;
-          background: #f8fafc;
-        }
-        .form-captcha input[type="checkbox"] {
-          width: 18px;
-          height: 18px;
-          accent-color: var(--accent);
-        }
-        .form-captcha label {
-          font-size: 1.1rem;
-          color: #555;
-          flex: 1;
-        }
-        .form-captcha-recaptcha {
-          font-size: 9px;
-          color: #aaa;
+        .form-success {
+          background: #f0faf4;
+          border: 1.5px solid #4caf50;
+          border-radius: var(--radius-md);
+          padding: 14px 16px;
+          color: #2e7d32;
+          font-size: 13px;
+          font-weight: 600;
           text-align: center;
-          line-height: 1.5;
+          margin-bottom: 12px;
+        }
+        .form-error {
+          background: #fff5f5;
+          border: 1.5px solid #f44336;
+          border-radius: var(--radius-md);
+          padding: 10px 14px;
+          color: #c62828;
+          font-size: 12px;
+          margin-bottom: 10px;
         }
 
         .form-submit {
           width: 100%;
           justify-content: center;
           border-radius: 10px;
-          padding: 15px;
-          font-size: 15px;
+          padding: 14px;
+          font-size: 14px;
           letter-spacing: 1px;
           text-transform: uppercase;
           border: none;
@@ -307,7 +426,9 @@ export default function Hero() {
           align-items: center;
           gap: 8px;
           cursor: pointer;
+          transition: opacity 0.2s;
         }
+        .form-submit:disabled { opacity: 0.65; cursor: not-allowed; }
 
         @media (max-width: 480px) {
           .hero-section { min-height: auto; }
@@ -390,7 +511,7 @@ export default function Hero() {
         }
       `}</style>
 
-      <section className="hero-section">
+      <section className="hero-section" id="hero">
         <canvas
           ref={canvasRef}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}
@@ -409,15 +530,9 @@ export default function Hero() {
         <div className="hero-inner">
 
           <div className="hero-left">
-            <p className="hero-eyebrow">
-              Invictus - Your Partner In Professional
-            </p><br /><br />
-            <h1 className="hero-title">
-              Book <br />Publishing
-            </h1>
-            <p className="hero-subtitle">
-              THE MOMENT YOUR MANUSCRIPT BECOMES A BOOK BEGINS HERE
-            </p>
+            <p className="hero-eyebrow">Invictus - Your Partner In Professional</p>
+            <h1 className="hero-title">Book <br />Publishing</h1>
+            <p className="hero-subtitle">THE MOMENT YOUR MANUSCRIPT BECOMES A BOOK BEGINS HERE</p>
             <p className="hero-desc">
               Your creativity stays at the center. We handle the process behind the success. From the first sentence to the final release, we provide the support needed to turn your writing into a professionally published work. Start the journey now!
             </p>
@@ -432,9 +547,15 @@ export default function Hero() {
             </div>
 
             <div className="hero-ctas">
-              <a href="#" className="btn-outline-white" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <MessageCircle size={16} aria-hidden="true" /> Chat with us
-              </a>
+              <button
+                type="button"
+                className="btn-outline-white"
+                style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                onClick={openLiveChat}
+              >
+                <MessageCircle size={16} />
+                Chat with us
+              </button>
               <a href="#" className="btn-accent" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                 <CalendarCheck size={16} aria-hidden="true" /> Book Free Consultation
               </a>
@@ -446,7 +567,6 @@ export default function Hero() {
             <div className="corner corner-tr" />
             <div className="corner corner-bl" />
             <div className="corner corner-br" />
-
             <div className="form-glow" />
 
             <div className="form-card">
@@ -459,23 +579,23 @@ export default function Hero() {
               </div>
               <p className="form-heading">Become A Published Author</p>
 
-              {[
-                { type: "text", ph: "Enter Your Name" },
-                { type: "email", ph: "Enter Your Email" },
-                { type: "tel", ph: "+1 (555) 000-0000" },
-              ].map(({ type, ph }) => (
-                <input key={ph} className="nybp-input" type={type} placeholder={ph} />
-              ))}
-              <textarea className="nybp-input" placeholder="Type Your Message..." />
+              <input className="hero-nybp-input" name="name" type="text" placeholder="Enter Your Name *" value={form.name} onChange={handle} />
+              <input className="hero-nybp-input" name="email" type="email" placeholder="Enter Your Email *" value={form.email} onChange={handle} />
+              <input className="hero-nybp-input" name="phone" type="tel" placeholder="Enter Phone Number *" value={form.phone} onChange={handle} />
 
-              <div className="form-captcha">
-                <input type="checkbox" id="robot" />
-                <label htmlFor="robot" className="form-desc">I&apos;m not a robot</label>
-                <span className="form-captcha-recaptcha">🔒<br />reCAPTCHA</span>
-              </div>
+              <select className="hero-select" name="service" value={form.service} onChange={handle}>
+                <option value="">Select a Service</option>
+                {services.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
 
-              <button className="btn-accent form-submit">
-                Contact Us
+              <textarea className="hero-nybp-input" name="message" placeholder="Type Your Message..." value={form.message} onChange={handle} />
+
+              {error && <div className="form-error">{error}</div>}
+
+              <button className="btn-accent form-submit" onClick={handleSubmit} disabled={loading}>
+                {loading ? "Sending..." : "Contact Us"}
               </button>
             </div>
           </div>

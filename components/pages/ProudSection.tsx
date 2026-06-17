@@ -170,7 +170,7 @@ export function ProudSection() {
           <p className="reveal delay-3">
             Every author has a unique story, we&apos;ve supported countless creators in transforming their ideas into professionally published books. We help authors refine their work, strengthen their presentation, and confidently move toward publication with professional support from start to finish. So, why wait to share the story only you can tell?
           </p>
-          <a href="#" className="btn-accent reveal delay-4">
+          <a href="#contact" className="btn-accent reveal delay-4">
             Get a free quote for your book projects
           </a>
         </div>

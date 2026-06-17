@@ -2,6 +2,35 @@
 import { useEffect, useRef } from "react";
 import { BookOpen, MessageCircle, Phone } from "lucide-react";
 
+declare global {
+  interface Window {
+    LiveChatWidget: any;
+    LC_API: any;
+  }
+}
+
+function openLiveChat() {
+  if (typeof window === "undefined") return;
+  if (window.LiveChatWidget) {
+    window.LiveChatWidget.call("maximize");
+    return;
+  }
+  const lc = (window as any).LC_API;
+  if (lc && typeof lc.open_chat_window === "function") {
+    lc.open_chat_window();
+    return;
+  }
+  const selectors = [
+    "#chat-widget-container button",
+    "[id^='chat-widget']",
+    "iframe[title*='chat' i]",
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector<HTMLElement>(sel);
+    if (el) { el.click(); return; }
+  }
+}
+
 export function StepIntoSection() {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -222,13 +251,18 @@ export function StepIntoSection() {
             Don&apos;t wait any longer, Take the next step with us. Start building your author identity with professional publishing support now!
           </p>
           <div className="sis-ctas">
-            <a href="#" className="btn-accent">
+            <a href="#contact" className="btn-accent">
               <BookOpen size={16} aria-hidden="true" /> Book Now
             </a>
-            <a href="#" className="btn-outline-white">
-              <MessageCircle size={16} aria-hidden="true" /> Chat with Experts
-            </a>
-            <a href="tel:8553847020" className="btn-outline-white">
+            <button
+              type="button"
+              className="btn-outline-white"
+              onClick={openLiveChat}
+            >
+              <MessageCircle size={16} />
+              Chat with us
+            </button>
+            <a href="tel:2797770367" className="btn-outline-white">
               <Phone size={16} aria-hidden="true" /> Call now
             </a>
           </div>

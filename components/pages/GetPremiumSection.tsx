@@ -2,6 +2,35 @@
 import { useEffect, useRef } from "react";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 
+declare global {
+  interface Window {
+    LiveChatWidget: any;
+    LC_API: any;
+  }
+}
+
+function openLiveChat() {
+  if (typeof window === "undefined") return;
+  if (window.LiveChatWidget) {
+    window.LiveChatWidget.call("maximize");
+    return;
+  }
+  const lc = (window as any).LC_API;
+  if (lc && typeof lc.open_chat_window === "function") {
+    lc.open_chat_window();
+    return;
+  }
+  const selectors = [
+    "#chat-widget-container button",
+    "[id^='chat-widget']",
+    "iframe[title*='chat' i]",
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector<HTMLElement>(sel);
+    if (el) { el.click(); return; }
+  }
+}
+
 export function GetPremiumSection() {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -273,7 +302,7 @@ export function GetPremiumSection() {
             <div className="gps-contacts">
               {[
                 { icon: <Phone size={20} aria-hidden="true" />, label: "Call Us", val: "(855) 384-7020" },
-                { icon: <Mail size={20} aria-hidden="true" />, label: "Discuss your ideas", val: "info@nybookpublishers.com" },
+                { icon: <Mail size={20} aria-hidden="true" />, label: "Discuss your ideas", val: "info@invictuspublishings.com" },
               ].map(({ icon, label, val }) => (
                 <div key={label} className="gps-contact-item">
                   <div className="gps-contact-icon">{icon}</div>
@@ -286,10 +315,15 @@ export function GetPremiumSection() {
             </div>
 
             <div className="gps-ctas">
-              <a href="#" className="btn-accent">Get a free quote for your book projects</a>
-              <a href="#" className="btn-navy">
-                <MessageCircle size={16} aria-hidden="true" /> Live Chat
-              </a>
+              <a href="#contact" className="btn-accent">Get a free quote for your book projects</a>
+              <button
+                type="button"
+                className="btn-navy"
+                onClick={openLiveChat}
+              >
+                <MessageCircle size={16} />
+                Live Chat
+              </button>
             </div>
           </div>
 
