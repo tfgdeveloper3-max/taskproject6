@@ -520,7 +520,7 @@ textarea.nybp-input {
 .nybp-link-accent {
   color: var(--navy);
   font-weight: 700;
-  text-decoration: underline;
+  font: bold;
   text-decoration-color: var(--accent);
   text-underline-offset: 3px;
   transition: color 0.2s;

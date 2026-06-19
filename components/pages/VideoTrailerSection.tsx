@@ -224,7 +224,7 @@ export function VideoTrailerSection() {
         <div className="vts-inner">
           <p className="section-eyebrow reveal">Featured in Times Square, NYC</p>
           <h2 className="section-title-accent reveal delay-1">
-            A Celebration of Authors on a Global Stage —&nbsp;
+            A Celebration of Authors on a Global Stage
             <br />See Your Story on the World&apos;s Biggest Stage With Invictus
           </h2>
           <p className="reveal delay-2">
@@ -232,7 +232,18 @@ export function VideoTrailerSection() {
           </p>
 
           {/* video frame */}
-          <div className="vts-video reveal-scale delay-3" />
+          <div className="vts-video reveal-scale delay-3">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            >
+              <source src="/images/TimeSquare.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
 
           <div className="vts-ctas">
             <button

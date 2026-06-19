@@ -292,7 +292,6 @@ export function GlobalSection() {
             ))}
           </div>
         </div>
-
         <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
