@@ -1,10 +1,6 @@
 "use client";
-import Link from "next/link";
 import { HelpCircle, Mail, Phone } from "lucide-react";
 import { Facebook, Linkedin, Twitter } from "./SocialIcons";
-
-const slugify = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 const footerServices = [
   {
@@ -37,9 +33,9 @@ const quickLinks = [
   { label: "Home", href: "#hero" },
   { label: "About Us", href: "#about" },
   { label: "Portfolio", href: "#portfolio" },
+  { label: "Services", href: "#services" },
   { label: "Reviews", href: "#reviews" },
-  { label: "Blogs", href: "#blogs" },
-  { label: "Contact Us", href: "#contact" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const helpLinks = [
@@ -101,6 +97,10 @@ export function FooterSection() {
           transition: color 0.2s, padding-left 0.2s;
           text-decoration: none;
           display: inline-block;
+          cursor: default; /* Non-clickable cursor */
+        }
+        .ft-link.is-clickable {
+          cursor: pointer; /* Clickable cursor for quick links */
         }
         .ft-link:hover {
           color: var(--accent);
@@ -308,7 +308,7 @@ export function FooterSection() {
               <ul className="ft-link-list">
                 {quickLinks.map(l => (
                   <li key={l.label}>
-                    <a href={l.href} className="ft-link" onClick={e => scrollTo(e, l.href)}>
+                    <a href={l.href} className="ft-link is-clickable" onClick={e => scrollTo(e, l.href)}>
                       {l.label}
                     </a>
                   </li>
@@ -316,14 +316,14 @@ export function FooterSection() {
               </ul>
             </div>
 
-            {/* Service columns */}
+            {/* Service columns - Ab clickable nahi hain */}
             {footerServices.map(col => (
               <div key={col.title}>
                 <h4 className="ft-col-title">{col.title}</h4>
                 <ul className="ft-link-list">
                   {col.links.map(l => (
                     <li key={l}>
-                      <Link href={`/services/${slugify(l)}`} className="ft-link">{l}</Link>
+                      <span className="ft-link">{l}</span>
                     </li>
                   ))}
                 </ul>
@@ -336,7 +336,7 @@ export function FooterSection() {
               <ul className="ft-link-list">
                 {helpLinks.map(l => (
                   <li key={l.label}>
-                    <a href={l.href} className="ft-link" onClick={e => scrollTo(e, l.href)}>
+                    <a href={l.href} className="ft-link is-clickable" onClick={e => scrollTo(e, l.href)}>
                       {l.label}
                     </a>
                   </li>

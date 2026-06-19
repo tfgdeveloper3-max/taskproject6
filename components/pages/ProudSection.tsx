@@ -1,7 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { CalendarCheck } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ConsultationModal } from "./ConsultationModal";
 
 export function ProudSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -170,11 +173,12 @@ export function ProudSection() {
           <p className="reveal delay-3">
             Every author has a unique story, we&apos;ve supported countless creators in transforming their ideas into professionally published books. We help authors refine their work, strengthen their presentation, and confidently move toward publication with professional support from start to finish. So, why wait to share the story only you can tell?
           </p>
-          <a href="#contact" className="btn-accent reveal delay-4">
-            Get a free quote for your book projects
+          <a href="#" className="btn-accent reveal delay-4" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <CalendarCheck size={16} />Get a free quote for your book projects
           </a>
         </div>
-
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );

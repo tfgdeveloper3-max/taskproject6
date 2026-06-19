@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Mail, Phone } from "lucide-react";
+import { BookOpen, Mail, Phone } from "lucide-react";
+import { ConsultationModal } from "./pages/ConsultationModal";
 
 const navLinks = [
   { label: "Home", href: "#hero" },
@@ -21,6 +22,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("hero");
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   useEffect(() => {
     const onScroll = () => {
@@ -321,8 +324,9 @@ export default function Navbar() {
             <a href="tel:2797770367" className="btn-accent">
               <Phone size={14} aria-hidden="true" /> (279) 777-0367
             </a>
-            <a href="#contact" className="btn-navy" onClick={e => handleNav(e, "#contact")}>
-              Free Consultation
+            <a href="#" className="btn-navy" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <BookOpen size={16} /> Free Consultation
             </a>
           </div>
 
@@ -364,6 +368,7 @@ export default function Navbar() {
             </a>
           </div>
         </div>
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </nav>
     </>
   );

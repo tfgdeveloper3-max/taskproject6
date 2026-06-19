@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageCircle, BookOpen } from "lucide-react";
+import { ConsultationModal } from "./ConsultationModal";
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ function openLiveChat() {
 }
 
 export function VideoTrailerSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -241,11 +243,13 @@ export function VideoTrailerSection() {
               <MessageCircle size={16} />
               Let&apos;s Discuss
             </button>
-            <a href="#contact" className="btn-accent reveal delay-5">
-              <BookOpen size={16} aria-hidden="true" /> Create Your Book&apos;s Future
+            <a href="#" className="btn-accent reveal delay-5" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <BookOpen size={16} /> Create Your Book&apos;s Future
             </a>
           </div>
         </div>
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );

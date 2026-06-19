@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { MessageCircle, CalendarCheck } from "lucide-react";
+import { ConsultationModal } from "@/components/pages/ConsultationModal";
 
 declare global {
   interface Window {
@@ -49,6 +50,7 @@ export default function Hero() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -556,8 +558,9 @@ export default function Hero() {
                 <MessageCircle size={16} />
                 Chat with us
               </button>
-              <a href="#" className="btn-accent" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <CalendarCheck size={16} aria-hidden="true" /> Book Free Consultation
+              <a href="#" className="btn-accent" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <CalendarCheck size={16} /> Book Free Consultation
               </a>
             </div>
           </div>
@@ -601,6 +604,8 @@ export default function Hero() {
           </div>
 
         </div>
+
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );

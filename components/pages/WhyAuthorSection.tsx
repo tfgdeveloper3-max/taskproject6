@@ -9,7 +9,7 @@ const services = [
   { icon: "/images/Video-Trailor.png", title: "Video Trailer Services", desc: "We create engaging video trailers that highlight your book's message and help you build stronger visibility across digital platforms." },
   { icon: "/images/Book-Marketing.png", title: "Book Marketing Services", desc: "Our marketing strategies are designed to position your book in front of the right audience through targeted promotion and visibility campaigns." },
   { icon: "/images/Illustration-Design.png", title: "Illustration Design Services", desc: "Our illustrators bring your story to life with custom visuals that enhance storytelling and strengthen your book's identity." },
-  { icon: "/images/icon8.webp", title: "Book Events Participation", desc: "We support authors in exploring literary events and industry opportunities that help expand visibility and connect with wider audiences." },
+  { icon: "/images/bookstore.png", title: "Book Events Participation", desc: "We support authors in exploring literary events and industry opportunities that help expand visibility and connect with wider audiences." },
 ];
 
 export function WhyAuthorsSection() {

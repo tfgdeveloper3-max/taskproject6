@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { Phone, Mail, MessageCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Phone, Mail, MessageCircle, BookOpen } from "lucide-react";
+import { ConsultationModal } from "./ConsultationModal";
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ function openLiveChat() {
 }
 
 export function GetPremiumSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -315,7 +317,10 @@ export function GetPremiumSection() {
             </div>
 
             <div className="gps-ctas">
-              <a href="#contact" className="btn-accent">Get a free quote for your book projects</a>
+              <a href="#" className="btn-accent reveal delay-5" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <BookOpen size={16} /> Get a free quote for your book projects
+              </a>
               <button
                 type="button"
                 className="btn-navy"
@@ -328,6 +333,7 @@ export function GetPremiumSection() {
           </div>
 
         </div>
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );

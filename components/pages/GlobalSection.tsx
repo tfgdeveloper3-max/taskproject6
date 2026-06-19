@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Phone, CalendarCheck } from "lucide-react";
+import { ConsultationModal } from "./ConsultationModal";
 
 export function GlobalSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -266,8 +268,9 @@ export function GlobalSection() {
               <a href="tel:2797770367" className="btn-navy">
                 <Phone size={16} aria-hidden="true" /> Call now
               </a>
-              <a href="#contact" className="btn-accent">
-                <CalendarCheck size={16} aria-hidden="true" /> Get Free Consultation
+              <a href="#" className="btn-accent" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <CalendarCheck size={16} /> Book Free Consultation
               </a>
             </div>
           </div>
@@ -290,6 +293,7 @@ export function GlobalSection() {
           </div>
         </div>
 
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );

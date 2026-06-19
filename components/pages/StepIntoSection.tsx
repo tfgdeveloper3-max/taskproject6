@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BookOpen, MessageCircle, Phone } from "lucide-react";
+import { ConsultationModal } from "./ConsultationModal";
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ function openLiveChat() {
 }
 
 export function StepIntoSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -251,8 +253,9 @@ export function StepIntoSection() {
             Don&apos;t wait any longer, Take the next step with us. Start building your author identity with professional publishing support now!
           </p>
           <div className="sis-ctas">
-            <a href="#contact" className="btn-accent">
-              <BookOpen size={16} aria-hidden="true" /> Book Now
+            <a href="#" className="btn-accent" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <BookOpen size={16} />Book Now
             </a>
             <button
               type="button"
@@ -272,7 +275,7 @@ export function StepIntoSection() {
         <div className="sis-book reveal-right">
           <img src="/images/Get-In-Touch.png" alt="Stack of Books" />
         </div>
-
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );

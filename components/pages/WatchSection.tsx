@@ -1,7 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { CalendarCheck } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ConsultationModal } from "./ConsultationModal";
 
 export function WatchSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -138,8 +141,12 @@ export function WatchSection() {
           <p className="reveal delay-2">
             At INVICTUS PUBLISHING, we simplify the entire journey from idea to published book. From shaping your manuscript and refining your writing, to professional editing, cover design, formatting, ISBN setup, and global distribution, we handle every stage with precision so your book reaches readers without confusion or delay.
           </p>
-          <a href="#contact" className="btn-accent reveal delay-3">Make Your Book Official Today!</a>
+          <a href="#" className="btn-accent reveal delay-3" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <CalendarCheck size={16} /> Book Free Consultation
+          </a>
         </div>
+        <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       </section>
     </>
   );
