@@ -1,6 +1,8 @@
 "use client";
+import Link from "next/link";
 import { HelpCircle, Mail, Phone } from "lucide-react";
 import { Facebook, Linkedin, Twitter } from "./SocialIcons";
+import { useSectionNav } from "./useSectionNav";
 
 const footerServices = [
   {
@@ -39,8 +41,9 @@ const quickLinks = [
 ];
 
 const helpLinks = [
-  { label: "Terms And Conditions", href: "#terms" },
-  { label: "Privacy Policy", href: "#privacy" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Refund Policy", href: "/refund-policy" },
 ];
 
 const socialLinks = [
@@ -49,16 +52,9 @@ const socialLinks = [
   { icon: <Twitter size={18} />, href: "#" },
 ];
 
-/* smooth scroll handler for single-page */
-const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-  if (!href.startsWith("#")) return;
-  e.preventDefault();
-  const id = href.slice(1);
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-
 export function FooterSection() {
+  const { goToSection } = useSectionNav();
+
   return (
     <>
       <style>{`
@@ -308,7 +304,7 @@ export function FooterSection() {
               <ul className="ft-link-list">
                 {quickLinks.map(l => (
                   <li key={l.label}>
-                    <a href={l.href} className="ft-link is-clickable" onClick={e => scrollTo(e, l.href)}>
+                    <a href={`/${l.href}`} className="ft-link is-clickable" onClick={e => goToSection(e, l.href)}>
                       {l.label}
                     </a>
                   </li>
@@ -336,20 +332,20 @@ export function FooterSection() {
               <ul className="ft-link-list">
                 {helpLinks.map(l => (
                   <li key={l.label}>
-                    <a href={l.href} className="ft-link is-clickable" onClick={e => scrollTo(e, l.href)}>
+                    <Link href={l.href} className="ft-link is-clickable">
                       {l.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
-              <div className="ft-badges">
+              {/* <div className="ft-badges">
                 <div className="ft-badge">
                   <img src="/images/google3.png" alt="Google Reviews" />
                 </div>
                 <div className="ft-badge">
                   <img src="/images/footer-icon1.webp" alt="Trustpilot" />
                 </div>
-              </div>
+              </div> */}
             </div>
 
           </div>
@@ -359,8 +355,8 @@ export function FooterSection() {
         <div className="ft-mid">
           <div className="ft-mid-inner">
 
-            <a href="#hero" className="ft-mid-logo" onClick={e => scrollTo(e, "#hero")} style={{ textDecoration: "none" }}>
-              <img src="/images/logo.png" alt="Invictus Publishing" />
+            <a href="/#hero" className="ft-mid-logo" onClick={e => goToSection(e, "#hero")} style={{ textDecoration: "none" }}>
+              <img src="/images/logo.png" alt="Invictus Publishings" />
             </a>
 
             <div className="ft-mid-address">
@@ -391,8 +387,8 @@ export function FooterSection() {
 
         {/* ══ BOTTOM ══ */}
         <div className="ft-bottom">
-          <p>Copyright &copy; 2026 Invictus Publishing Group LLC All Rights Reserved.</p>
-          <a href="#contact" className="btn-accent ft-help-btn" onClick={e => scrollTo(e, "#contact")}>
+          <p>Copyright &copy; 2026 Invictus Publishings Group LLC All Rights Reserved.</p>
+          <a href="/#contact" className="btn-accent ft-help-btn" onClick={e => goToSection(e, "#contact")}>
             <HelpCircle size={16} aria-hidden="true" /> Help
           </a>
         </div>

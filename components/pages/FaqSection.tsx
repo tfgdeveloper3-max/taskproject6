@@ -202,7 +202,7 @@ export function FAQSection() {
         {/* Heading */}
         <div className="faq-head reveal">
           <p className="section-eyebrow">Before You Get Started</p>
-          <h2>What You Should Know About Invictus Publishing</h2>
+          <h2>What You Should Know About Invictus Publishings</h2>
         </div>
 
         {/* Items */}

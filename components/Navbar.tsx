@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { BookOpen, Mail, Phone } from "lucide-react";
 import { ConsultationModal } from "./pages/ConsultationModal";
+import { useSectionNav } from "./useSectionNav";
 
 const navLinks = [
   { label: "Home", href: "#hero" },
@@ -12,34 +13,36 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-  e.preventDefault();
-  const el = document.getElementById(href.slice(1));
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("hero");
   const [modalOpen, setModalOpen] = useState(false);
-
+  const { isHome, goToSection } = useSectionNav();
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
+
+      // Home ke ilawa kisi page par koi link active nahi hoga
+      if (!isHome) {
+        setActive("");
+        return;
+      }
+
       const ids = navLinks.map(l => l.href.slice(1));
       for (let i = ids.length - 1; i >= 0; i--) {
         const el = document.getElementById(ids[i]);
         if (el && el.getBoundingClientRect().top <= 120) { setActive(ids[i]); break; }
       }
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
 
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    scrollTo(e, href);
+    goToSection(e, href);
     setMobileOpen(false);
   };
 
@@ -300,8 +303,8 @@ export default function Navbar() {
         <div className="nb-inner">
 
           {/* Logo */}
-          <a href="#hero" className="nb-logo" onClick={e => handleNav(e, "#hero")}>
-            <img src="/images/logo.png" alt="Invictus Publishing" />
+          <a href="/#hero" className="nb-logo" onClick={e => handleNav(e, "#hero")}>
+            <img src="/images/logo.png" alt="Invictus Publishings" />
           </a>
 
           {/* Desktop links */}
@@ -309,7 +312,7 @@ export default function Navbar() {
             {navLinks.map(item => (
               <li key={item.label}>
                 <a
-                  href={item.href}
+                  href={`/${item.href}`}
                   className={`nb-link${active === item.href.slice(1) ? " active" : ""}`}
                   onClick={e => handleNav(e, item.href)}
                 >
@@ -356,7 +359,7 @@ export default function Navbar() {
             {navLinks.map(item => (
               <a
                 key={item.label}
-                href={item.href}
+                href={`/${item.href}`}
                 className={`nb-mobile-link${active === item.href.slice(1) ? " active" : ""}`}
                 onClick={e => handleNav(e, item.href)}
               >

@@ -249,7 +249,7 @@ export function GlobalSection() {
         {/* ── Banner ── */}
         <div className="gs-banner reveal">
           <h2>
-            INVICTUS PUBLISHING – Building Books <br />with Precision and Purpose
+            INVICTUS PUBLISHINGS – Building Books <br />with Precision and Purpose
           </h2>
         </div>
 
@@ -258,10 +258,10 @@ export function GlobalSection() {
 
           <div className="gs-text reveal-left">
             {[
-              "At Invictus Publishing, we turn manuscripts into professionally built books designed for real publication and real readers. We work with authors at every stage, from early ideas to fully developed, market-ready titles.",
+              "At Invictus Publishings, we turn manuscripts into professionally built books designed for real publication and real readers. We work with authors at every stage, from early ideas to fully developed, market-ready titles.",
               "Our process is complete and structured: ghostwriting, editing, design, formatting, ISBN setup, and global distribution across major platforms including Amazon. Every stage is handled with clarity, precision, and publishing intent.",
               "We don't treat writing as a file, we develop it into a finished product built for visibility, credibility, and long-term impact.",
-              "Invictus Publishing exists to move stories from concept to publication with purpose, structure, and global reach and we want you in our list!",
+              "Invictus Publishings exists to move stories from concept to publication with purpose, structure, and global reach and we want you in our list!",
             ].map((p, i) => <p key={i}>{p}</p>)}
 
             <div className="gs-ctas">

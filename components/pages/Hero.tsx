@@ -539,14 +539,14 @@ export default function Hero() {
               Your creativity stays at the center. We handle the process behind the success. From the first sentence to the final release, we provide the support needed to turn your writing into a professionally published work. Start the journey now!
             </p>
 
-            <div className="hero-badges">
+            {/* <div className="hero-badges">
               <div className="hero-badge">
                 <img src="/images/google3.png" alt="Google Reviews" />
               </div>
               <div className="hero-badge">
                 <img src="/images/footer-icon1.webp" alt="Trustpilot" />
               </div>
-            </div>
+            </div> */}
 
             <div className="hero-ctas">
               <button

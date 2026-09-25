@@ -139,7 +139,7 @@ export function WatchSection() {
             Let&apos;s See How Effortless Book Publishing Can Be With Us
           </h2>
           <p className="reveal delay-2">
-            At INVICTUS PUBLISHING, we simplify the entire journey from idea to published book. From shaping your manuscript and refining your writing, to professional editing, cover design, formatting, ISBN setup, and global distribution, we handle every stage with precision so your book reaches readers without confusion or delay.
+            At INVICTUS PUBLISHINGS, we simplify the entire journey from idea to published book. From shaping your manuscript and refining your writing, to professional editing, cover design, formatting, ISBN setup, and global distribution, we handle every stage with precision so your book reaches readers without confusion or delay.
           </p>
           <a href="#" className="btn-accent reveal delay-3" onClick={(e) => { e.preventDefault(); setModalOpen(true); }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>

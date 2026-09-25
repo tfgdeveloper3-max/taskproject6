@@ -43,6 +43,8 @@ const services = [
   "Book Events Participation",
 ];
 
+const API_URL = "https://crm.authorssale.com/api/lead/o7agPymCnWqqRIwy44cIvFBOdPi0U52p";
+
 export function GetInTouchSection() {
   const router = useRouter();
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
@@ -60,21 +62,33 @@ export function GetInTouchSection() {
     }
     setLoading(true);
     setError("");
+
+    // Service + Message ko ek hi message mein wrap karo
+    const fullMessage = [
+      form.service ? `Service: ${form.service}` : "",
+      form.message ? `Message: ${form.message}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+
     try {
-      const res = await fetch("https://leads.authorpublishers.us/api/lead/QoihAxdBb1nYBCKZ28lYvey1wJgbJELf", {
+      const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          Name: form.name,
-          Email: form.email,
-          "Phone Number": form.phone,
-          "Service Name": form.service,
-          Message: form.message,
+          name: form.name,
+          email: form.email,
+          phone_number: form.phone,
+          message: fullMessage,
         }),
       });
-      const data = await res.json();
+
+      // Agar response JSON na ho to crash na kare
+      const data = await res.json().catch(() => null);
+
       if (res.ok) {
         setForm({ name: "", email: "", phone: "", service: "", message: "" });
+        setLoading(false);
         router.push("/thank-you");
       } else {
         setError(data?.message || "Something went wrong. Please try again.");
@@ -310,7 +324,7 @@ export function GetInTouchSection() {
         <div className="git-cta reveal">
           <p className="section-eyebrow">Contact Us</p>
           <h2 className="section-title">Let&apos;s Talk About Your Book</h2>
-          <h3>Reach Out to Invictus Publishing for Professional Author Solutions</h3>
+          <h3>Reach Out to Invictus Publishings for Professional Author Solutions</h3>
           <p>Get in touch and start building your path toward professional publishing success.</p>
           <div className="git-cta-btns">
             <button

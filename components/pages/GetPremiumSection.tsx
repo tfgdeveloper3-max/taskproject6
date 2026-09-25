@@ -291,7 +291,7 @@ export function GetPremiumSection() {
 
           {/* text */}
           <div className="gps-text reveal-right">
-            <p className="section-eyebrow" style={{ marginBottom: 10 }}>Invictus Publishing</p>
+            <p className="section-eyebrow" style={{ marginBottom: 10 }}>Invictus Publishings</p>
             <h2>
               Take Your Book Beyond the Draft with our Premium{" "}
               <span>Book<br />Publishing</span> Services!
@@ -303,7 +303,7 @@ export function GetPremiumSection() {
             {/* contact items */}
             <div className="gps-contacts">
               {[
-                { icon: <Phone size={20} aria-hidden="true" />, label: "Call Us", val: "(855) 384-7020" },
+                { icon: <Phone size={20} aria-hidden="true" />, label: "Call Us", val: "(279) 777-0367" },
                 { icon: <Mail size={20} aria-hidden="true" />, label: "Discuss your ideas", val: "info@invictuspublishings.com" },
               ].map(({ icon, label, val }) => (
                 <div key={label} className="gps-contact-item">

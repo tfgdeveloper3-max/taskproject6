@@ -1,0 +1,316 @@
+/* Legal pages — aapki global theme ke variables use karti hai */
+
+.lg-page {
+    background: var(--white);
+    color: var(--text-dark);
+}
+
+/* ---------- Hero ---------- */
+.lg-hero {
+    background: var(--gradient-dark);
+    padding: 150px 24px 72px;
+    /* top padding fixed navbar ke liye */
+    position: relative;
+    overflow: hidden;
+}
+
+.lg-hero::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -210px;
+    bottom: -160px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    border: 1px solid rgba(240, 165, 0, 0.18);
+    box-shadow: 0 0 0 60px rgba(240, 165, 0, 0.03), 0 0 0 120px rgba(240, 165, 0, 0.02);
+    pointer-events: none;
+}
+
+.lg-hero-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lg-title {
+    font-family: var(--font2);
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.05;
+    color: var(--white);
+    max-width: 14ch;
+    margin: 0 auto 22px;
+}
+
+.lg-intro {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 62ch;
+    margin: 0 auto;
+}
+
+.lg-intro strong {
+    color: var(--accent2);
+    font-weight: 700;
+}
+
+.lg-updated {
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.lg-updated::before {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 auto 14px;
+}
+
+/* ---------- At a glance (Refund page) ---------- */
+.lg-glance {
+    background: var(--navy3);
+    border-top: 1px solid rgba(240, 165, 0, 0.2);
+}
+
+.lg-glance-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.lg-glance-item {
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lg-glance-item:last-child {
+    border-right: none;
+}
+
+.lg-glance-value {
+    font-family: var(--font2);
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1.1;
+}
+
+.lg-glance-label {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- Body layout ---------- */
+.lg-body {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 80px 24px 110px;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 72px;
+    align-items: start;
+}
+
+.lg-toc {
+    position: sticky;
+    top: 110px;
+}
+
+.lg-toc-heading {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 14px;
+}
+
+.lg-toc ul {
+    list-style: none;
+    border-left: 2px solid #e8eaf2;
+}
+
+.lg-toc a {
+    display: block;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-mid);
+    padding: 8px 0 8px 16px;
+    margin-left: -2px;
+    border-left: 2px solid transparent;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.lg-toc a:hover {
+    color: var(--navy);
+}
+
+.lg-toc a.is-active {
+    color: var(--navy);
+    font-weight: 700;
+    border-left-color: var(--accent);
+}
+
+/* ---------- Content ---------- */
+.lg-content {
+    max-width: 740px;
+}
+
+.lg-section {
+    scroll-margin-top: 110px;
+    padding-bottom: 44px;
+    margin-bottom: 44px;
+    border-bottom: 1px solid #eceef4;
+}
+
+.lg-section:last-of-type {
+    border-bottom: none;
+}
+
+.lg-h2 {
+    font-family: var(--font2);
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.25;
+    margin-bottom: 18px;
+}
+
+.lg-p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 16px;
+}
+
+.lg-p strong,
+.lg-list strong,
+.lg-note strong {
+    color: var(--navy);
+    font-weight: 700;
+}
+
+.lg-list {
+    list-style: none;
+    margin: 6px 0 18px;
+    display: grid;
+    gap: 12px;
+}
+
+.lg-list li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-mid);
+}
+
+.lg-list li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.72em;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: rotate(45deg);
+}
+
+.lg-note {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-dark);
+    background: #fff8e8;
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: 8px 0 18px;
+}
+
+/* ---------- Contact ---------- */
+.lg-contact {
+    margin-top: 16px;
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.lg-contact h3 {
+    font-family: var(--font2);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+}
+
+.lg-contact p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* ---------- Focus ---------- */
+.lg-page a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .lg-hero {
+        padding: 120px 20px 56px;
+    }
+
+
+    .lg-glance-inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lg-glance-item:nth-child(2) {
+        border-right: none;
+    }
+
+    .lg-glance-item:nth-child(-n + 2) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .lg-body {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 48px 20px 80px;
+    }
+
+    .lg-toc {
+        display: none;
+    }
+
+    .lg-contact {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lg-hero-inner {
+        animation: none;
+    }
+}

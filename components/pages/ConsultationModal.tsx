@@ -14,6 +14,8 @@ const services = [
   "Book Events Participation",
 ];
 
+const API_URL = "https://crm.authorssale.com/api/lead/o7agPymCnWqqRIwy44cIvFBOdPi0U52p";
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -42,32 +44,44 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
   }, [isOpen, onClose]);
 
   const handleSubmit = async () => {
-    if (!form.name) { setError("Name required hai."); return; }
-    if (!form.email || !form.email.includes("@")) { setError("Valid email address daalo."); return; }
-    if (!form.phone) { setError("Phone number required hai."); return; }
+    if (!form.name) { setError("Full name is required."); return; }
+    if (!form.email || !form.email.includes("@")) { setError("Please enter a valid email address."); return; }
+    if (!form.phone) { setError("Phone number is required."); return; }
     setLoading(true);
     setError("");
+
+    // Service + Message ko ek hi message mein wrap karo
+    const fullMessage = [
+      form.service ? `Service: ${form.service}` : "",
+      form.message ? `Message: ${form.message}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+
     try {
-      const res = await fetch("https://leads.authorpublishers.us/api/lead/QoihAxdBb1nYBCKZ28lYvey1wJgbJELf", {
+      const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          Name: form.name,
-          Email: form.email,
-          "Phone Number": form.phone,
-          "Service Name": form.service,
-          Message: form.message,
+          name: form.name,
+          email: form.email,
+          phone_number: form.phone,
+          message: fullMessage,
         }),
       });
-      const data = await res.json();
+
+      // Agar response JSON na ho to crash na kare
+      const data = await res.json().catch(() => null);
+
       if (res.ok) {
         setForm({ name: "", email: "", phone: "", service: "", message: "" });
         setSuccess(true);
         setTimeout(() => {
           onClose();
           setSuccess(false);
+          setLoading(false);
           router.push("/thank-you");
-        }, 2500);
+        }, 2000);
       } else {
         setError(data?.message || "Something went wrong. Please try again.");
         setLoading(false);
@@ -110,9 +124,7 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
           display: flex; justify-content: center; align-items: center;
           margin: 0 auto 10px;
         }
-        .cm-logo-wrap img {
-          height: 70px; width: auto; object-fit: contain;
-        }
+        .cm-logo-wrap img { height: 70px; width: auto; object-fit: contain; }
         .cm-title { font-size: 17px; font-weight: 700; color: #0d1240; margin: 0 0 4px; }
         .cm-sub { font-size: 12px; color: #888; margin: 0; }
         .cm-divider { border: none; border-top: 1px solid #f0f0f0; margin: 0 0 18px; }
@@ -120,6 +132,7 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
           display: block; font-size: 11px; font-weight: 700; color: #666;
           text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px;
         }
+        .cm-required { color: #f0a500; margin-left: 2px; }
         .cm-input-wrap { position: relative; margin-bottom: 12px; }
         .cm-input-icon {
           position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
@@ -212,9 +225,10 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
 
           <div className="cm-head">
             <div className="cm-logo-wrap">
-              <img src="/images/logo.png" alt="Invictus Publishing" />
+              <img src="/images/logo.png" alt="Invictus Publishings" />
             </div>
             <p className="cm-title" id="cm-title">Book Your Free Consultation</p>
+            <p className="cm-sub">Start your publishing journey — talk to our team today</p>
           </div>
 
           <hr className="cm-divider" />
@@ -222,7 +236,7 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
           {success && (
             <div className="cm-success">
               <CheckCircle size={18} />
-              Thank you! Hamari team jald hi aapse contact karegi.
+              Thank you! Redirecting you to the next step...
             </div>
           )}
           {error && (
@@ -232,22 +246,24 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
             </div>
           )}
 
-          <label className="cm-label">Full Name <span style={{ color: "#f0a500" }}>*</span></label>
+          {/* Full Name */}
+          <label className="cm-label">Full Name <span className="cm-required">* Required</span></label>
           <div className="cm-input-wrap">
             <span className="cm-input-icon"><User size={15} /></span>
             <input className="cm-input" name="name" type="text" placeholder="Enter your full name" value={form.name} onChange={handle} />
           </div>
 
+          {/* Email + Phone */}
           <div className="cm-row">
             <div>
-              <label className="cm-label">Email <span style={{ color: "#f0a500" }}>*</span></label>
+              <label className="cm-label">Email Address <span className="cm-required">* Required</span></label>
               <div className="cm-input-wrap">
                 <span className="cm-input-icon"><Mail size={15} /></span>
                 <input className="cm-input" name="email" type="email" placeholder="your@email.com" value={form.email} onChange={handle} />
               </div>
             </div>
             <div>
-              <label className="cm-label">Phone <span style={{ color: "#f0a500" }}>*</span></label>
+              <label className="cm-label">Phone Number <span className="cm-required">* Required</span></label>
               <div className="cm-input-wrap">
                 <span className="cm-input-icon"><Phone size={15} /></span>
                 <input className="cm-input" name="phone" type="tel" placeholder="(000) 000-0000" value={form.phone} onChange={handle} />
@@ -255,7 +271,8 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
             </div>
           </div>
 
-          <label className="cm-label">Select Service</label>
+          {/* Service */}
+          <label className="cm-label">Select Service <span style={{ color: "#aab0bc", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>(Optional)</span></label>
           <div className="cm-select-wrap">
             <select className="cm-select" name="service" value={form.service} onChange={handle}>
               <option value="">— Choose a service —</option>
@@ -263,7 +280,8 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
             </select>
           </div>
 
-          <label className="cm-label">Your Message</label>
+          {/* Message */}
+          <label className="cm-label">Your Message <span style={{ color: "#aab0bc", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>(Optional)</span></label>
           <textarea className="cm-textarea" name="message" placeholder="Tell us about your book project..." value={form.message} onChange={handle} />
 
           <button className="cm-submit" onClick={handleSubmit} disabled={loading}>
@@ -276,7 +294,7 @@ export function ConsultationModal({ isOpen, onClose }: Props) {
 
           <div className="cm-trust">
             <div className="cm-trust-item"><Lock size={12} /> Secure &amp; Private</div>
-            <div className="cm-trust-item"><Clock size={12} /> Reply within 24hrs</div>
+            <div className="cm-trust-item"><Clock size={12} /> Reply Within 24 Hours</div>
             <div className="cm-trust-item"><Star size={12} /> 100% Free</div>
           </div>
 
