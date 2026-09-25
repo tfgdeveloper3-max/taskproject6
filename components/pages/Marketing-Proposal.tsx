@@ -135,7 +135,7 @@ const STRATEGIES: Strategy[] = [
         title: "Book to Screen: Bringing Your Story to Life",
         summary:
             "Our Book-to-Screen services are designed to help authors explore the pathway from the written page to visual storytelling, from screenplay development to professional industry presentation.",
-        image: "/images/marketing/Book-to-Screen.jpg",
+        image: "/images/marketing/BookScreen.jpg",
         alt: "Reader turning the page of a digital book on a tablet",
         ratio: "612 / 407",
         points: [
