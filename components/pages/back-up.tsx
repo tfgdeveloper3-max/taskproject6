@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
 import {
     ArrowRight,
@@ -347,9 +347,11 @@ export default function MarketingProposal() {
     const closeConsult = useCallback(() => setConsultOpen(false), []);
 
     const [activeStrategy, setActiveStrategy] = useState(STRATEGIES[0].id);
+    const [activeList, setActiveList] = useState(MAIL_LISTS[0].id);
 
     const strategyTabs = useRef<Record<string, HTMLButtonElement | null>>({});
     const progressBars = useRef<Record<string, HTMLSpanElement | null>>({});
+    const listTabs = useRef<Record<string, HTMLButtonElement | null>>({});
     const tabBarRef = useRef<HTMLDivElement>(null);
 
     const clickLock = useRef<number | null>(null);
@@ -361,6 +363,20 @@ export default function MarketingProposal() {
                 ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }),
         [reduce]
     );
+
+    useEffect(() => {
+        const openFromHash = () => {
+            const match = window.location.hash.match(/^#mailing-list-(.+)$/);
+            if (!match) return;
+            const group = MAIL_LISTS.find((l) => l.id === match[1]);
+            if (!group) return;
+            setActiveList(group.id);
+            scrollToId("mailing-list");
+        };
+        openFromHash();
+        window.addEventListener("hashchange", openFromHash);
+        return () => window.removeEventListener("hashchange", openFromHash);
+    }, [scrollToId]);
 
     useEffect(() => {
         let frame = 0;
@@ -414,6 +430,22 @@ export default function MarketingProposal() {
         scrollToId(id);
         history.replaceState(null, "", `#${id}`);
     };
+
+    /* Arrow keys move between genre tabs */
+    const onListKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+        const ids = MAIL_LISTS.map((l) => l.id);
+        let n = -1;
+        if (e.key === "ArrowDown" || e.key === "ArrowRight") n = (index + 1) % ids.length;
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft") n = (index - 1 + ids.length) % ids.length;
+        if (e.key === "Home") n = 0;
+        if (e.key === "End") n = ids.length - 1;
+        if (n < 0) return;
+        e.preventDefault();
+        setActiveList(ids[n]);
+        listTabs.current[ids[n]]?.focus();
+    };
+
+    const currentList = MAIL_LISTS.find((l) => l.id === activeList)!;
 
     const heroSeq: Variants = {
         hidden: {},
@@ -880,17 +912,28 @@ export default function MarketingProposal() {
                     gap: 24px 48px;
                     margin-bottom: 36px;
                 }
-                .ip-lgroups { display: grid; gap: 48px; }
-                .ip-lgroup { scroll-margin-top: calc(var(--ip-navbar-height) + 20px); }
-                .ip-lgroup-title {
-                    font-family: var(--ip-serif);
-                    font-weight: 900;
-                    font-size: clamp(20px, 1.8vw, 26px);
-                    line-height: 1.25;
+                .ip-ltabs {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-bottom: 32px;
+                }
+                .ip-ltab {
+                    font-family: var(--ip-sans);
+                    font-weight: 700;
+                    font-size: 14px;
                     color: var(--ip-navy);
-                    margin: 0 0 18px;
-                    padding-bottom: 12px;
-                    border-bottom: 2px solid var(--ip-gold);
+                    background: #fff;
+                    border: 1.5px solid var(--ip-line-strong);
+                    border-radius: var(--radius-pill, 50px);
+                    padding: 11px 20px;
+                    transition: border-color var(--transition, 0.25s ease), background var(--transition, 0.25s ease);
+                }
+                .ip-ltab:hover { border-color: var(--ip-gold); }
+                .ip-ltab[aria-selected="true"] {
+                    background: var(--ip-navy);
+                    border-color: var(--ip-navy);
+                    color: #fff;
                 }
                 .ip-cards {
                     list-style: none;
@@ -1022,7 +1065,6 @@ export default function MarketingProposal() {
                     .ip-stab { font-size: 16px; padding: 16px 20px; }
                     .ip-points li { font-size: 17px; }
                     .ip-panel-summary { font-size: 18px; }
-                    .ip-lgroup-title { font-size: 30px; }
                 }
                 @media (min-width: 2400px) {
                     .ip { --ip-media-max-h: 820px; }
@@ -1033,7 +1075,6 @@ export default function MarketingProposal() {
                     .ip-stab { font-size: 20px; }
                     .ip-panel-title { font-size: 48px; }
                     .ip-points li { font-size: 21px; }
-                    .ip-lgroup-title { font-size: 38px; }
                     .ip-card-size { font-size: 38px; }
                     .ip-card-genre { font-size: 18px; }
                 }
@@ -1082,7 +1123,9 @@ export default function MarketingProposal() {
                     .ip-panel-body { padding: 30px 28px 26px; }
 
                     .ip-lists { padding: 80px 0; }
-                    .ip-lgroups { gap: 36px; }
+                    .ip-ltabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -28px; margin-right: -28px; padding: 0 28px; }
+                    .ip-ltabs::-webkit-scrollbar { display: none; }
+                    .ip-ltab { flex-shrink: 0; }
                     .ip-cta { padding-bottom: 80px; }
                     .ip-cta-box { gap: 36px; }
                 }
@@ -1100,7 +1143,7 @@ export default function MarketingProposal() {
                     .ip-fusion .btn-accent { width: 100%; justify-content: center; }
                     .ip-panel-media-col { padding: 14px 14px 0; }
                     .ip-panel-body { padding: 24px 20px 22px; }
-                    .ip-lgroups { gap: 32px; }
+                    .ip-ltabs { margin-left: -18px; margin-right: -18px; padding: 0 18px; }
                     .ip-cards { grid-template-columns: 1fr; }
                     .ip-cta-box { padding: 44px 22px; border-radius: 20px; }
                 }
@@ -1115,24 +1158,6 @@ export default function MarketingProposal() {
                     .ip *, .ip *::before, .ip *::after {
                         transition-duration: 0.01ms !important;
                         scroll-behavior: auto !important;
-                    }
-                }
-
-                /* ═══ PRINT / PDF ═══ */
-                @media print {
-                    .ip-lists { padding: 32px 0; }
-                    .ip-lgroups { gap: 28px; }
-                    .ip-lgroup-title { break-after: avoid; page-break-after: avoid; }
-                    .ip-cards { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-                    .ip-card {
-                        break-inside: avoid;
-                        page-break-inside: avoid;
-                        transform: none !important;
-                    }
-                    .ip-card-price,
-                    .ip-lgroup-title {
-                        -webkit-print-color-adjust: exact;
-                        print-color-adjust: exact;
                     }
                 }
             `}</style>
@@ -1281,7 +1306,7 @@ export default function MarketingProposal() {
                     </div>
                 </section>
 
-                {/* ─── MAILING LISTS (heading-wise) ─── */}
+                {/* ─── MAILING LISTS ─── */}
                 <section id="mailing-list" className="ip-lists">
                     <div className="ip-container">
                         <div className="ip-lists-head">
@@ -1293,29 +1318,45 @@ export default function MarketingProposal() {
                             </div>
                         </div>
 
-                        <div className="ip-lgroups">
-                            {MAIL_LISTS.map((l) => (
-                                <section
+                        <div className="ip-ltabs" role="tablist" aria-label="Genres">
+                            {MAIL_LISTS.map((l, i) => (
+                                <button
                                     key={l.id}
-                                    id={`mailing-list-${l.id}`}
-                                    className="ip-lgroup"
-                                    aria-labelledby={`lgroup-${l.id}-title`}
+                                    ref={(el) => {
+                                        listTabs.current[l.id] = el;
+                                    }}
+                                    type="button"
+                                    role="tab"
+                                    id={`ltab-${l.id}`}
+                                    aria-selected={activeList === l.id}
+                                    aria-controls="ip-list-panel"
+                                    tabIndex={activeList === l.id ? 0 : -1}
+                                    className="ip-ltab"
+                                    onClick={() => setActiveList(l.id)}
+                                    onKeyDown={(e) => onListKey(e, i)}
                                 >
-                                    <h3 id={`lgroup-${l.id}-title`} className="ip-lgroup-title">
-                                        {l.label}
-                                    </h3>
-                                    <ul className="ip-cards">
-                                        {l.rows.map((r) => (
-                                            <li key={r.genre} className="ip-card">
-                                                {r.price && <span className="ip-card-price">{r.price}</span>}
-                                                <span className="ip-card-genre">{r.genre}</span>
-                                                <span className="ip-card-size">{r.size}</span>
-                                                <span className="ip-card-unit">subscribers</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </section>
+                                    {l.label}
+                                </button>
                             ))}
+                        </div>
+
+                        <div id="ip-list-panel" role="tabpanel" aria-labelledby={`ltab-${activeList}`}>
+                            <motion.ul
+                                key={activeList}
+                                className="ip-cards"
+                                initial={reduce ? false : { opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.35, ease }}
+                            >
+                                {currentList.rows.map((r) => (
+                                    <li key={r.genre} className="ip-card">
+                                        {r.price && <span className="ip-card-price">{r.price}</span>}
+                                        <span className="ip-card-genre">{r.genre}</span>
+                                        <span className="ip-card-size">{r.size}</span>
+                                        <span className="ip-card-unit">subscribers</span>
+                                    </li>
+                                ))}
+                            </motion.ul>
                         </div>
                     </div>
                 </section>
@@ -1365,3 +1406,4 @@ export default function MarketingProposal() {
         </>
     );
 }
+

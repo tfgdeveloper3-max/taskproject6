@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import { FooterSection } from "@/components/Footer";
 import LightningCursor from "@/components/Lightningcursor";
 import MarketingProposal from "@/components/pages/Marketing-Proposal";
+import ProposalNavbar from "@/components/Proposalnavbar";
+import { ProposalFooter } from "@/components/ProposalFooter";
 
 export const metadata: Metadata = {
     title: "Book Marketing & Promotional Campaigns | Invictus Publishing",
@@ -14,9 +14,9 @@ export default function MarketingProp() {
     return (
         <>
             <LightningCursor />
-            <Navbar />
+            <ProposalNavbar />
             <MarketingProposal />
-            <FooterSection />
+            <ProposalFooter />
         </>
     );
 }
