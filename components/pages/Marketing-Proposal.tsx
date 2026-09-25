@@ -57,7 +57,7 @@ const STRATEGIES: Strategy[] = [
         id: "book-signing",
         nav: "Book Signing Events",
         title: "Book Signing Events",
-        image: "/images/marketing/Book-Signing-Event.jpg",
+        image: "/images/marketing/Book-Signing-Events.jpg",
         alt: "Author signing books and greeting readers in a bookstore",
         ratio: "3504 / 2336",
         points: [
@@ -242,10 +242,7 @@ const QUESTIONS = [
     "Have they helped your book stand out in an increasingly competitive marketplace?",
     "More importantly, have they strengthened your visibility and connected your work with the right audience?",
 ];
-
-/* ═══════════════════════════════════════
-   ONE STRATEGY SECTION (all stacked; the tab bar follows the scroll)
-═══════════════════════════════════════ */
+ 
 function StrategyPanel({ s, reduce }: { s: Strategy; reduce: boolean }) {
     const [videoIndex, setVideoIndex] = useState(0);
     const video = s.videos?.[videoIndex];
@@ -356,7 +353,7 @@ export default function MarketingProposal() {
     const progressBars = useRef<Record<string, HTMLSpanElement | null>>({});
     const listTabs = useRef<Record<string, HTMLButtonElement | null>>({});
     const tabBarRef = useRef<HTMLDivElement>(null);
-    /* While a tab click is smooth-scrolling, don't let the scroll tracker flicker through other tabs */
+  
     const clickLock = useRef<number | null>(null);
 
     const scrollToId = useCallback(
@@ -366,9 +363,7 @@ export default function MarketingProposal() {
                 ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }),
         [reduce]
     );
-
-    /* Footer genre links: #mailing-list-romance → open that genre and scroll to the list.
-       Strategy links like #times-square scroll natively, since each section has that id. */
+ 
     useEffect(() => {
         const openFromHash = () => {
             const match = window.location.hash.match(/^#mailing-list-(.+)$/);
@@ -382,10 +377,7 @@ export default function MarketingProposal() {
         window.addEventListener("hashchange", openFromHash);
         return () => window.removeEventListener("hashchange", openFromHash);
     }, [scrollToId]);
-
-    /* Scroll-driven tabs: the active tab is the section that has crossed the
-       reading line; when a section ends, the next one takes over. Each tab's
-       gold bar shows how far through its section the reader is. */
+ 
     useEffect(() => {
         let frame = 0;
         const update = () => {
@@ -577,7 +569,6 @@ export default function MarketingProposal() {
                     aspect-ratio: 4 / 4.4;
                     object-fit: contain;
                     border-radius: 12px;
-                    background: var(--ip-navy3);
                 }
                 .ip-hero-chip {
                     position: absolute;
@@ -777,8 +768,7 @@ export default function MarketingProposal() {
                     scroll-margin-top: calc(var(--ip-navbar-height) + 20px);
                 }
                 .ip-panel-media-col {
-                    background: var(--ip-navy3);
-                    padding: 24px 24px 20px;
+                    padding: 24px 24px 0;
                 }
                 .ip-panel-media {
                     position: relative;
@@ -786,7 +776,6 @@ export default function MarketingProposal() {
                     margin: 0 auto;
                     border-radius: 12px;
                     overflow: hidden;
-                    background: #000;
                 }
                 .ip-panel-media img,
                 .ip-panel-media video {
@@ -812,9 +801,9 @@ export default function MarketingProposal() {
                     font-size: 13px;
                     padding: 9px 18px;
                     border-radius: var(--radius-pill, 50px);
-                    border: 1.5px solid rgba(255,255,255,0.3);
-                    background: transparent;
-                    color: #fff;
+                    border: 1.5px solid var(--ip-line-strong);
+                    background: #fff;
+                    color: var(--ip-navy);
                 }
                 .ip-vtabs button[aria-pressed="true"] {
                     background: var(--ip-gold);
@@ -1152,7 +1141,7 @@ export default function MarketingProposal() {
                     .ip-questions li { grid-template-columns: 36px 1fr; padding: 18px; gap: 12px; }
                     .ip-questions li::before { width: 36px; height: 36px; font-size: 18px; }
                     .ip-fusion .btn-accent { width: 100%; justify-content: center; }
-                    .ip-panel-media-col { padding: 14px; }
+                    .ip-panel-media-col { padding: 14px 14px 0; }
                     .ip-panel-body { padding: 24px 20px 22px; }
                     .ip-ltabs { margin-left: -18px; margin-right: -18px; padding: 0 18px; }
                     .ip-cards { grid-template-columns: 1fr; }
