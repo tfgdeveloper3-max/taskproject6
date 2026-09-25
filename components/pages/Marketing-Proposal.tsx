@@ -243,6 +243,9 @@ const QUESTIONS = [
     "More importantly, have they strengthened your visibility and connected your work with the right audience?",
 ];
 
+/* ═══════════════════════════════════════
+   ONE STRATEGY SECTION (all stacked; the tab bar follows the scroll)
+═══════════════════════════════════════ */
 function StrategyPanel({ s, reduce }: { s: Strategy; reduce: boolean }) {
     const [videoIndex, setVideoIndex] = useState(0);
     const video = s.videos?.[videoIndex];
@@ -337,6 +340,9 @@ function StrategyPanel({ s, reduce }: { s: Strategy; reduce: boolean }) {
     );
 }
 
+/* ═══════════════════════════════════════
+   PAGE
+═══════════════════════════════════════ */
 export default function MarketingProposal() {
     const reduce = useReducedMotion() ?? false;
     const [consultOpen, setConsultOpen] = useState(false);
@@ -350,7 +356,7 @@ export default function MarketingProposal() {
     const progressBars = useRef<Record<string, HTMLSpanElement | null>>({});
     const listTabs = useRef<Record<string, HTMLButtonElement | null>>({});
     const tabBarRef = useRef<HTMLDivElement>(null);
- 
+    /* While a tab click is smooth-scrolling, don't let the scroll tracker flicker through other tabs */
     const clickLock = useRef<number | null>(null);
 
     const scrollToId = useCallback(
@@ -360,7 +366,9 @@ export default function MarketingProposal() {
                 ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }),
         [reduce]
     );
- 
+
+    /* Footer genre links: #mailing-list-romance → open that genre and scroll to the list.
+       Strategy links like #times-square scroll natively, since each section has that id. */
     useEffect(() => {
         const openFromHash = () => {
             const match = window.location.hash.match(/^#mailing-list-(.+)$/);
@@ -374,7 +382,10 @@ export default function MarketingProposal() {
         window.addEventListener("hashchange", openFromHash);
         return () => window.removeEventListener("hashchange", openFromHash);
     }, [scrollToId]);
- 
+
+    /* Scroll-driven tabs: the active tab is the section that has crossed the
+       reading line; when a section ends, the next one takes over. Each tab's
+       gold bar shows how far through its section the reader is. */
     useEffect(() => {
         let frame = 0;
         const update = () => {
@@ -407,7 +418,8 @@ export default function MarketingProposal() {
             if (frame) cancelAnimationFrame(frame);
         };
     }, []);
- 
+
+    /* On small screens, keep the active strategy chip in view (sideways only) */
     useEffect(() => {
         const bar = tabBarRef.current;
         const tab = strategyTabs.current[activeStrategy];
@@ -416,6 +428,7 @@ export default function MarketingProposal() {
         bar.scrollTo({ left, behavior: reduce ? "auto" : "smooth" });
     }, [activeStrategy, reduce]);
 
+    /* Clicking a tab scrolls to that section */
     const goToStrategy = (id: string) => {
         setActiveStrategy(id);
         if (clickLock.current !== null) window.clearTimeout(clickLock.current);
@@ -425,7 +438,8 @@ export default function MarketingProposal() {
         scrollToId(id);
         history.replaceState(null, "", `#${id}`);
     };
- 
+
+    /* Arrow keys move between genre tabs */
     const onListKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
         const ids = MAIL_LISTS.map((l) => l.id);
         let n = -1;
@@ -440,7 +454,6 @@ export default function MarketingProposal() {
     };
 
     const currentList = MAIL_LISTS.find((l) => l.id === activeList)!;
-    const missingPrice = currentList.rows.some((r) => !r.price);
 
     const heroSeq: Variants = {
         hidden: {},
@@ -454,6 +467,8 @@ export default function MarketingProposal() {
     return (
         <>
             <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
                 /* Fonts, colors, buttons and eyebrow/title styles come from globals.css
                    (--font: Montserrat, --font2: Playfair Display, --navy, --accent …).
                    Fallbacks keep the page intact if a variable is missing. */
@@ -468,6 +483,7 @@ export default function MarketingProposal() {
                     --ip-mid: var(--text-mid, #555);
                     --ip-soft-bg: #f5f6fb;
                     --ip-line: #e4e7f0;
+                    --ip-line-strong: rgba(13,18,64,0.4);
                     --ip-sans: var(--font, 'Montserrat', Arial, sans-serif);
                     --ip-serif: var(--font2, 'Playfair Display', Georgia, serif);
                     --ip-r-md: var(--radius-md, 10px);
@@ -507,14 +523,13 @@ export default function MarketingProposal() {
                     position: relative;
                     background: var(--ip-dark);
                     color: #fff;
-                    padding-top: var(--ip-navbar-height);
                     overflow: hidden;
                 }
                 .ip-hero::after {
                     content: "";
                     position: absolute;
-                    right: -180px;
-                    top: -120px;
+                    right: 0;
+                    top: 0;
                     width: 560px;
                     height: 560px;
                     border-radius: 50%;
@@ -528,8 +543,8 @@ export default function MarketingProposal() {
                     grid-template-columns: 1.1fr 0.9fr;
                     gap: 64px;
                     align-items: center;
-                    padding-top: 96px;
-                    padding-bottom: 96px;
+                    padding-top: 56px;
+                    padding-bottom: 72px;
                 }
                 .ip-hero h1 {
                     font-family: var(--ip-serif);
@@ -566,14 +581,15 @@ export default function MarketingProposal() {
                 }
                 .ip-hero-chip {
                     position: absolute;
-                    left: -22px;
-                    bottom: 36px;
+                    left: 28px;
+                    bottom: 28px;
                     display: flex;
-                    align-items: center;
-                    gap: 12px;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 6px;
                     background: #fff;
                     color: var(--ip-navy);
-                    padding: 14px 20px;
+                    padding: 16px 22px;
                     border-radius: 14px;
                     box-shadow: 0 16px 40px rgba(0,0,0,0.25);
                     max-width: 250px;
@@ -581,7 +597,7 @@ export default function MarketingProposal() {
                 .ip-hero-chip b {
                     font-family: var(--ip-serif);
                     font-weight: 900;
-                    font-size: 34px;
+                    font-size: 28px;
                     line-height: 1;
                     color: var(--ip-gold);
                 }
@@ -919,7 +935,7 @@ export default function MarketingProposal() {
                     font-size: 14px;
                     color: var(--ip-navy);
                     background: #fff;
-                    border: 1.5px solid var(--ip-line);
+                    border: 1.5px solid var(--ip-line-strong);
                     border-radius: var(--radius-pill, 50px);
                     padding: 11px 20px;
                     transition: border-color var(--transition, 0.25s ease), background var(--transition, 0.25s ease);
@@ -944,7 +960,7 @@ export default function MarketingProposal() {
                     flex-direction: column;
                     gap: 6px;
                     padding: 24px 24px 22px;
-                    border: 1.5px solid var(--ip-line);
+                    border: 1.5px solid var(--ip-line-strong);
                     border-radius: var(--ip-r-lg);
                     background: #fff;
                     transition: border-color var(--transition, 0.25s ease), transform 0.3s ease;
@@ -976,11 +992,6 @@ export default function MarketingProposal() {
                     font-size: 13px;
                     padding: 5px 12px;
                     border-radius: var(--radius-pill, 50px);
-                }
-                .ip-note {
-                    margin: 24px 0 0;
-                    font-size: 14px;
-                    color: var(--ip-mid);
                 }
 
                 /* ═══ CLOSING CTA ═══ */
@@ -1095,7 +1106,7 @@ export default function MarketingProposal() {
                     .ip-hero-grid,
                     .ip-intro-grid,
                     .ip-cta-box { grid-template-columns: 1fr; }
-                    .ip-hero-grid { gap: 48px; padding-top: 64px; padding-bottom: 80px; }
+                    .ip-hero-grid { gap: 40px; padding-top: 40px; padding-bottom: 64px; }
                     .ip-hero-visual { max-width: 520px; }
                     .ip-intro { padding: 80px 0; }
                     .ip-intro-grid { gap: 40px; }
@@ -1133,10 +1144,11 @@ export default function MarketingProposal() {
                 /* ═══ MOBILE ═══ */
                 @media (max-width: 640px) {
                     .ip-container { padding: 0 18px; }
+                    .ip-hero-grid { padding-top: 32px; padding-bottom: 56px; }
                     .ip-hero-actions { flex-direction: column; align-items: stretch; }
                     .ip-hero-actions > * { justify-content: center; }
-                    .ip-hero-chip { left: 12px; bottom: 12px; padding: 10px 14px; }
-                    .ip-hero-chip b { font-size: 26px; }
+                    .ip-hero-chip { left: 20px; bottom: 20px; padding: 10px 14px; }
+                    .ip-hero-chip b { font-size: 22px; }
                     .ip-questions li { grid-template-columns: 36px 1fr; padding: 18px; gap: 12px; }
                     .ip-questions li::before { width: 36px; height: 36px; font-size: 18px; }
                     .ip-fusion .btn-accent { width: 100%; justify-content: center; }
@@ -1204,8 +1216,8 @@ export default function MarketingProposal() {
                                 <img src="/images/marketing/Hero.png" alt="Author holding a newly published book" />
                             </div>
                             <div className="ip-hero-chip">
-                                <b>{STRATEGIES.length}</b>
-                                <span>marketing channels working together for your book</span>
+                                <b>Unlimited</b>
+                                <span>Marketing channels working together for your book</span>
                             </div>
                         </motion.div>
                     </div>
@@ -1315,9 +1327,6 @@ export default function MarketingProposal() {
                                     A Glimpse of Our Mail List
                                 </h2>
                             </div>
-                            <p className="ip-lede" style={{ maxWidth: 420 }}>
-                                Choose a genre to see the size of each subscriber list.
-                            </p>
                         </div>
 
                         <div className="ip-ltabs" role="tablist" aria-label="Genres">
@@ -1359,9 +1368,6 @@ export default function MarketingProposal() {
                                     </li>
                                 ))}
                             </motion.ul>
-                            {missingPrice && (
-                                <p className="ip-note">Contact us for pricing on lists without a listed price.</p>
-                            )}
                         </div>
                     </div>
                 </section>
